@@ -1,0 +1,37 @@
+<%- model_class = Feed -%>
+<div class="page-header">
+  <h3><%=t '.title', :default => @latest_feeds.title %></h3>
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+              feeds_path, :class => 'btn'  %>
+</div>
+<% unless @latest_feeds.nil? %>
+ The latest <%= @latest_feeds.entries.count %> feeds.
+ <ul>
+  <% @latest_feeds.entries.reverse.each do |feed| %>
+   <% if nil != feed && feed.respond_to?(:published) %>
+    <li class="cls_title">
+     <%= link_to feed.title, feed.url, :target => "_blank" %>
+     (<%= time_ago_in_words(feed.published) %> ago)
+    </li>
+    <li>
+    	<%= sanitize feed.summary %>
+    </li>
+   <% end %>
+  <% end %>
+ </ul>
+<% else %>
+ <p>
+  <em>No blog feeds to show.</em>
+ </p>
+<% end %>
+<!-- <dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>
+  <dd><%= @feed.title %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:url) %>:</strong></dt>
+  <dd><%= @feed.url %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:categories) %>:</strong></dt>
+  <dd><%= @feed.categories %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:summary) %>:</strong></dt>
+  <dd><%= @feed.summary %></dd>
+</dl> -->
+
